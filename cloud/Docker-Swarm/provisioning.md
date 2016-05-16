@@ -50,6 +50,7 @@ def addEnv(url, body):
 mgmt01 = []
 mgmt02 = []
 swarm_nodes = []
+all = []
 
 # Create mgmt01
 boto_request = {'ImageId':'${AMI_OD}',
@@ -66,6 +67,7 @@ req = {'zone_id': '${ZONE_ID}',
 
 server = createServer(req)
 mgmt01.append(server['server_id'])
+all.append(server['server_id'])
 
 # Add environment of mgmt01
 body = {'add':{'mgmt01':mgmt01}}
@@ -86,6 +88,7 @@ req = {'zone_id': '${ZONE_ID}',
 
 server = createServer(req)
 mgmt02.append(server['server_id'])
+all.append(server['server_id'])
 
 # Add environment of mgmt02
 body = {'add':{'mgmt02':mgmt02}}
@@ -109,7 +112,12 @@ for i in range(${SWARM_NODES}):
     server = createServer(req)
     print server
     swarm_nodes.append(server['server_id'])
+    all.append(server['server_id'])
+
 body = {'add':{'swarm_nodes':swarm_nodes}}
+addEnv('${METADATA}', body)
+
+body = {'add':{'all':all}}
 addEnv('${METADATA}', body)
 
 ~~~
