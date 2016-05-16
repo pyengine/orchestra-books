@@ -18,6 +18,7 @@ SWARM_INSTANCE_TYPE | t2.micro   | Instance type of Swarm node
 ~~~python
 import requests
 import json
+import time
 
 hdr = {'Content-Type':'application/json','X-Auth-Token':'${TOKEN}'}
 def createServer(req):
@@ -53,6 +54,7 @@ swarm_nodes = []
 all = []
 
 # Create mgmt01
+print "Create mgmt01"
 boto_request = {'ImageId':'${AMI_ID}',
         'MinCount':1,
         'MaxCount':1,
@@ -80,6 +82,7 @@ body = {'add':{'jeju':{'MGMT01':addr}}}
 addEnv('${METADATA}', body)
 
 # Create Mgmt02
+print "Create mgmt02"
 req = {'zone_id': '${ZONE_ID}',
         'name': 'mgmt02',
         'key_name': '${KEY_NAME}',
@@ -95,6 +98,7 @@ body = {'add':{'mgmt02':mgmt02}}
 addEnv('${METADATA}', body)
 
 # Create Swarm nodes
+print "Create Swarm nodes"
 boto_request = {'ImageId':'${AMI_ID}',
         'MinCount':1,
         'MaxCount':1,
