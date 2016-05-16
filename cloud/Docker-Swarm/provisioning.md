@@ -53,7 +53,7 @@ swarm_nodes = []
 all = []
 
 # Create mgmt01
-boto_request = {'ImageId':'${AMI_OD}',
+boto_request = {'ImageId':'${AMI_ID}',
         'MinCount':1,
         'MaxCount':1,
         'InstanceType':'${MGMT_INSTANCE_TYPE}'
@@ -95,7 +95,7 @@ body = {'add':{'mgmt02':mgmt02}}
 addEnv('${METADATA}', body)
 
 # Create Swarm nodes
-boto_request = {'ImageId':'${AMI_OD}',
+boto_request = {'ImageId':'${AMI_ID}',
         'MinCount':1,
         'MaxCount':1,
         'InstanceType':'${SWARM_INSTANCE_TYPE}'
