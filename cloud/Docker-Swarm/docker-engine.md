@@ -26,6 +26,10 @@ OPTIONS="--default-ulimit nofile=1024:4096 -H tcp://0.0.0.0:2375 -H unix:///var/
 
 ~~~bash
 sudo usermod -aG docker ec2-user
-sudo reboot
 ~~~
 
+# Reboot Server
+
+~~~bash
+sudo reboot
+~~~
