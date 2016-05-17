@@ -166,7 +166,7 @@ show(task)
 
 display('Map Task #6')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Create Swarm seconary manager', 'task_type':'jeju+mgmt02', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/secondary-manager.md'}}
+body = {'map': {'name':'Create Swarm secondary manager', 'task_type':'jeju+mgmt02', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/secondary-manager.md'}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)

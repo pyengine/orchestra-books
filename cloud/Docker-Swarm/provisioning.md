@@ -7,11 +7,11 @@ URL     | http://127.0.0.1/api/v1 | URL for request
 TOKEN   | my_token              | Token for API (must be overrided)
 METADATA      | http://127.0.0.1/api/v1/catalog/{stack_id}/env | Environment URL for stack
 ZONE_ID | 14b14664-705e-42e9-8106-240b83f9df79  | Zone ID (must be overrided)
-AMI_ID   | ami-ac85fbcc | Amazon Linux AMI 2016.03.1 (HVM), SSD Volume Type (us-west-2)
+AMI_ID   | ami-d0f506b0 | Amazon Linux AMI 2016.03.1 (HVM), SSD Volume Type (us-west-2)
 SWARM_NODES   | 2       | Number of Docker swarm nodes
 KEY_NAME   | aws_son    | Keypair name
-MGMT_INSTANCE_TYPE | t2.micro   | Instance type of Management node
-SWARM_INSTANCE_TYPE | t2.micro   | Instance type of Swarm node
+MGMT_INSTANCE_TYPE | t2.small   | Instance type of Management node
+SWARM_INSTANCE_TYPE | t2.medium  | Instance type of Swarm node
 
 # Create Server
 
