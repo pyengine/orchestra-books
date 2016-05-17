@@ -118,9 +118,10 @@ stack_id = stack['stack_id']
 
 import time
 display('Workflow State')
+stack_url2 = '${URL}/catalog/stacks/%s/env' % stack_id
 while 1:
     body = {'get':'workflow_state'}
-    kv = makePost(stack_url, header2, body)
+    kv = makePost(stack_url2, header2, body)
     show(kv)
     time.sleep(10)
 ~~~
