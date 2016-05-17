@@ -79,7 +79,7 @@ addEnv('${METADATA}', body)
 time.sleep(30)
 # Get IP of mgmt01
 addr = getServerDetail(server['server_id'],'private_ip_address')
-body = {'add':{'jeju':{'MGMT01':addr}}}
+body = {'add':{'jeju':{'MGMT01':addr['private_ip_address']}}}
 addEnv('${METADATA}', body)
 
 # Create Mgmt02
