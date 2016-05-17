@@ -1,14 +1,14 @@
 # Basic environment
 This example installs three-node architecture with OpenStack Networking(neutron).
 
-Keyword     | Value
------       | -----
-EXTERNAL_NETWORK_CIDR | 192.168.0.0/24
-FLOATING_IP_START | 192.168.0.100
-FLOATING_IP_END | 192.168.0.200
-EXTERNAL_NETWORK_GATEWAY | 192.168.0.1
-TENANT_NETWORK_CIDR | 192.168.2.0/24
-TENANT_NETWORK_GATEWAY | 192.168.2.1
+Keyword                 | Value             | Description              
+-----                   | -----             | ----
+EXTERNAL_NETWORK_CIDR | 192.168.0.0/24      | External network(public) range
+FLOATING_IP_START | 192.168.0.100           | Floating IP start
+FLOATING_IP_END | 192.168.0.200             | Floating IP end
+EXTERNAL_NETWORK_GATEWAY | 192.168.0.1      | Gateway of external network
+TENANT_NETWORK_CIDR | 192.168.2.0/24        | Default Tenant network range
+TENANT_NETWORK_GATEWAY | 192.168.2.1        | Default Tenant network gateway
 
 
 # Add a networking component

@@ -18,14 +18,17 @@ The deployment of docker swarm cluster has following process.
 # Basic environment
 This example installs three-node architecture with OpenStack Networking(neutron).
 
-Keyword     | Value
------       | -----
-CONTROLLER  | 10.1.0.1
-NOVA_PASS   | nova_pass
-NEUTRON_PASS | neutron_pass
-RABBIT_PASS | rabbit_pass
-EXTERNAL_INTERFACE | br-ex
-
+Keyword     | Value         | Description
+-----       | -----         | ----
+CONTROLLER  | 10.1.0.1      | Controller node
+NOVA_PASS   | nova_pass     | nova password
+NEUTRON_PASS | neutron_pass | neutron password
+RABBIT_PASS | rabbit_pass   | rabbit password
+EXTERNAL_INTERFACE | br-ex  | External interface bridge name
+PHYSNET1    | bond0.2       | Public Interface of tenant router
+PHYSNET2    | bond0         | Private Interface of tenant network
+REGION      | RegionOne     | Region name
+VLAN_RANGE  | 100:999       | VLAN range for tenant private network
 
 ## Before you begin
 ## Security
@@ -135,7 +138,7 @@ tenant_network_types = vlan
 mechanism_drivers = linuxbridge
 
 [ml2_type_vlan]
-network_vlan_ranges = physnet2:100:999
+network_vlan_ranges = physnet2:${VLAN_RANGE}
 
 [ml2_type_gre]
 
@@ -145,7 +148,7 @@ enable_vxlan = False
 [securitygroup]
 
 [linux_bridge]
-physical_interface_mappings = physnet1:bond0.2, physnet2:bond0
+physical_interface_mappings = physnet1:${PHYSNET1}, physnet2:${PHYSNET2}
 
 ~~~
 
@@ -186,7 +189,7 @@ edit /etc/neutron/metadata_agent.ini
 [DEFAULT]
 auth_uri = http://${CONTROLLER}:5000
 auth_url = http://${CONTROLLER}:35357
-auth_region = RegionOne
+auth_region = ${REGION}
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

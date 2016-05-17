@@ -18,13 +18,14 @@ The deployment of docker swarm cluster has following process.
 # Basic environment
 This example installs three-node architecture with OpenStack Networking(neutron).
 
-Keyword     | Value
------       | -----
-CONTROLLER  | 10.1.0.1
-NOVA_PASS   | nova_pass
-NEUTRON_PASS | neutron_pass
-RABBIT_PASS | rabbit_pass
-
+Keyword     | Value             | Description
+-----       | -----             | ----
+CONTROLLER  | 10.1.0.1          | Controller node
+NOVA_PASS   | nova_pass         | nova password
+NEUTRON_PASS | neutron_pass     | neutron password
+RABBIT_PASS | rabbit_pass       | rabbit password
+PHYSNET2    | bond0             | Private Interface of tenant network
+VLAN_RANGE  | 100:999           | VLAN range for tenant private network
 
 ## Before you begin
 ## Security
@@ -212,7 +213,7 @@ mechanism_drivers = linuxbridge
 
 [ml2_type_flat]
 [ml2_type_vlan]
-network_vlan_ranges = physnet2:100:999
+network_vlan_ranges = physnet2:${VLAN_RANGE}
 
 [ml2_type_gre]
 [ml2_type_vxlan]
@@ -221,7 +222,7 @@ network_vlan_ranges = physnet2:100:999
 #enable_ipset = True
 
 [linux_bridge]
-physical_interface_mappings = physnet2:bond0
+physical_interface_mappings = physnet2:${PHYSNET2}
 ~~~
 
 Restart the nova & neutron service:

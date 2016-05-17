@@ -44,12 +44,14 @@ REGION      | RegionOne
 You must install NTP to properly synchronize services among nodes. We recommend that you configure the controller node to reference more accurate servers and other nodes to reference the controller node.
 
 To install the NTP service
+
 ~~~bash
 apt-get -y install ntp
 ~~~
 
 ## OpenStack packages
 * Install the Ubuntu cloud archive keyring and repository
+
 ~~~bash
 apt-get -y install ubuntu-cloud-keyring
 echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
@@ -57,11 +59,13 @@ echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
 ~~~
 
 * Update the package lists
+
 ~~~bash
 apt-get update
 ~~~
 
 ## SQL database
+
 * To install and configure the database server
 ~~~bash
 export DEBIAN_FRONTEND=noninteractive
@@ -81,6 +85,7 @@ character-set-server = utf8
 ~~~
 
 * To finalize installation
+
 ~~~bash
 service mysql restart
 ~~~
@@ -88,16 +93,20 @@ service mysql restart
 
 ## Message queue
 * To install the message queue service
+
 ~~~bash
 apt-get -y install rabbitmq-server
 ~~~
 
 * To configure the message queue service
 * Add the openstack user
+
 ~~~bash
 rabbitmqctl add_user openstack ${RABBIT_PASS}
 ~~~
+
 * Permit configuration, write, and read access for the openstack user:
+
 ~~~bash
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ~~~
@@ -146,11 +155,14 @@ echo "manual" > /etc/init/keystone.override
 ~~~
 
 Install keystone packages
+
 ~~~bash
 apt-get -y install keystone python-openstackclient apache2 libapache2-mod-wsgi memcached python-memcache
 ~~~
 
 edit /etc/keystone/keystone.conf
+
+
 ~~~text
 [DEFAULT]
 
@@ -213,6 +225,7 @@ Distribution = Ubuntu
 ~~~
 
 * Populate the Identity service database:
+
 ~~~bash
 su -s /bin/sh -c "keystone-manage db_sync" keystone
 ~~~
@@ -259,29 +272,104 @@ Listen 35357
 ~~~
 
 * Enable the Identity service virtual hosts:
+
 ~~~bash
 ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-enabled
 ~~~
 
 * Create the directory structure for the WSGI components:
+
 ~~~bash
 mkdir -p /var/www/cgi-bin/keystone
 ~~~
 
 * Copy the WSGI components from the upstream repository into this directory:
+
+### Copy the WSGI components from the upstream repository into this director
+ 
+
+edit /var/www/cgi-bin/keystone/main
+
+~~~text
+# Copyright 2013 OpenStack Foundation
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+import os
+
+from keystone.server import wsgi as wsgi_server
+
+
+name = os.path.basename(__file__)
+
+# NOTE(ldbragst): 'application' is required in this context by WSGI spec.
+# The following is a reference to Python Paste Deploy documentation
+# http://pythonpaste.org/deploy/
+application = wsgi_server.initialize_application(name)
+~~~
+
+### Copy the WSGI components from the upstream repository into this director
+ 
+
+edit /var/www/cgi-bin/keystone/admin
+
+~~~text
+# Copyright 2013 OpenStack Foundation
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+import os
+
+from keystone.server import wsgi as wsgi_server
+
+
+name = os.path.basename(__file__)
+
+# NOTE(ldbragst): 'application' is required in this context by WSGI spec.
+# The following is a reference to Python Paste Deploy documentation
+# http://pythonpaste.org/deploy/
+application = wsgi_server.initialize_application(name)
+~~~
+
+Following code is not needed, we don't want to use curl.
+
 ~~~bash
-apt-get install -y curl
-curl http://10.251.210.54/openstack/keystone.html \
-  | tee /var/www/cgi-bin/keystone/main /var/www/cgi-bin/keystone/admin
+echo "Skip"
+# Instead of curl, direct write content
+#apt-get install -y curl
+#curl http://git.openstack.org/cgit/openstack/keystone/plain/httpd/keystone.py?h=stable/kilo \
+#  | tee /var/www/cgi-bin/keystone/main /var/www/cgi-bin/keystone/admin
 ~~~
 
 * Adjust ownership and permissions on this directory and the files in it:
+
 ~~~bash
 chown -R keystone:keystone /var/www/cgi-bin/keystone
 chmod 755 /var/www/cgi-bin/keystone/*
 ~~~
 
 * To finalize installtion
+
 ~~~bash
 service apache2 restart
 rm -f /var/lib/keystone/keystone.db
@@ -304,7 +392,7 @@ openstack endpoint create \
 --publicurl http://${IP}:5000/v2.0 \
 --internalurl http://${IP}:5000/v2.0 \
 --adminurl http://${IP}:35357/v2.0 \
---region RegionOne \
+--region ${REGION} \
 identity
 ~~~
 
@@ -380,6 +468,7 @@ export OS_AUTH_URL=http://${IP}:35357/v3
 export OS_IMAGE_API_VERSION=2
 ~~~
 
+## add demo-openrc.sh
 
 edit demo-openrc.sh
 
@@ -429,7 +518,7 @@ openstack endpoint create \
 --publicurl http://${IP}:9292 \
 --internalurl http://${IP}:9292 \
 --adminurl http://${IP}:9292 \
---region RegionOne \
+--region ${REGION} \
 image
 ~~~
 
@@ -622,7 +711,7 @@ openstack endpoint create \
 --publicurl http://${IP}:8774/v2/%\(tenant_id\)s \
 --internalurl http://${IP}:8774/v2/%\(tenant_id\)s \
 --adminurl http://${IP}:8774/v2/%\(tenant_id\)s \
---region RegionOne \
+--region ${REGION} \
 compute
 ~~~
 
@@ -751,7 +840,7 @@ openstack endpoint create \
 --publicurl http://${IP}:9696 \
 --adminurl http://${IP}:9696 \
 --internalurl http://${IP}:9696 \
---region RegionOne \
+--region ${REGION} \
 network
 ~~~
 
@@ -800,7 +889,7 @@ auth_url = http://${IP}:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
-region_name = RegionOne
+region_name = ${REGION}
 project_name = service
 username = nova
 password = ${NOVA_PASS}
@@ -1257,7 +1346,7 @@ openstack endpoint create \
 --publicurl http://${IP}:8776/v2/%\(tenant_id\)s \
 --internalurl http://${IP}:8776/v2/%\(tenant_id\)s \
 --adminurl http://${IP}:8776/v2/%\(tenant_id\)s \
---region RegionOne \
+--region ${REGION} \
 volume
 
 openstack endpoint create \
@@ -1265,7 +1354,7 @@ openstack endpoint create \
 --publicurl http://${IP}:8776/v2/%\(tenant_id\)s \
 --internalurl http://${IP}:8776/v2/%\(tenant_id\)s \
 --adminurl http://${IP}:8776/v2/%\(tenant_id\)s \
---region RegionOne \
+--region ${REGION} \
 volumev2
 
 
@@ -1333,8 +1422,3 @@ service cinder-scheduler restart
 service cinder-api restart
 ~~~
 
-## Install Ceph client package
-
-~~~bash
-apt-get install -y python-rbd
-~~~
