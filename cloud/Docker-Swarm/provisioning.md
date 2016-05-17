@@ -112,6 +112,7 @@ for i in range(${SWARM_NODES}):
     node_name = "swarm-%.2d" % (i+1)
     req = {'zone_id': '${ZONE_ID}', 
             'name':node_name,
+            'key_name':'${KEY_NAME}',
             'floatingIP':True,
             'request': boto_request
         }
