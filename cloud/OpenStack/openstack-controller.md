@@ -106,9 +106,8 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 
 ## Create keystone database and update privileges.
 
-~~~bash
-mysql -u root -p <<EOF
-CREATE DATABASE nova;
+~~~expect
+spawn mysql -u root -p -e "REATE DATABASE nova;
 GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \
 IDENTIFIED BY '${NOVA_DBPASS}';
 CREATE DATABASE glance;
@@ -134,7 +133,10 @@ IDENTIFIED BY '${NEUTRON_DBPASS}';
 GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' \
 IDENTIFIED BY '${CINDER_DBPASS}';
 FLUSH PRIVILEGES;
-EOF
+"
+expect "Enter password: "
+send "\n";
+interact
 ~~~
 
 Disable the keystone service from starting automatically after installation:

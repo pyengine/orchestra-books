@@ -33,12 +33,14 @@ RABBIT_PASS | rabbit_pass
 You must install NTP to properly synchronize services among nodes. We recommend that you configure the controller node to reference more accurate servers and other nodes to reference the controller node.
 
 To install the NTP service
+
 ~~~bash
 apt-get -y install ntp
 ~~~
 
 ## OpenStack packages
 * Install the Ubuntu cloud archive keyring and repository
+
 ~~~bash
 apt-get -y install ubuntu-cloud-keyring
 echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
@@ -46,6 +48,7 @@ echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
 ~~~
 
 * Update the package lists
+
 ~~~bash
 apt-get update
 ~~~
