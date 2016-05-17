@@ -116,7 +116,7 @@ rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## Create keystone database and update privileges.
 
 ~~~expect
-spawn mysql -u root -p -e "REATE DATABASE nova;
+spawn mysql -u root -p -e "CREATE DATABASE nova;
 GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \
 IDENTIFIED BY '${NOVA_DBPASS}';
 CREATE DATABASE glance;
