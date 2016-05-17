@@ -105,7 +105,7 @@ num_size = raw_input('cluster size(#n)=>')
 
 stack_url = '${URL}/catalog/stacks'
 display('Deploy Stack')
-body = {'package_id':package_id, 'env': {'jeju':{'SWARM_NODES':num_size,'ZONE_ID':zone_id}}}
+body = {'package_id':package_id, 'env': {'jeju':{'SWARM_NODES':num_size,'ZONE_ID':zone_id, 'AMI_ID':'ami-d0f506b0'}}}
 stack = makePost(stack_url, header2, body)
 stack_id = stack['stack_id']
 show(stack)

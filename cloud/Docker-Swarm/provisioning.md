@@ -56,6 +56,7 @@ all = []
 # Create mgmt01
 print "Create mgmt01"
 boto_request = {'ImageId':'${AMI_ID}',
+        'key_name':'${KEY_NAME}',
         'MinCount':1,
         'MaxCount':1,
         'InstanceType':'${MGMT_INSTANCE_TYPE}'
@@ -100,6 +101,7 @@ addEnv('${METADATA}', body)
 # Create Swarm nodes
 print "Create Swarm nodes"
 boto_request = {'ImageId':'${AMI_ID}',
+        'key_name':'${KEY_NAME}',
         'MinCount':1,
         'MaxCount':1,
         'InstanceType':'${SWARM_INSTANCE_TYPE}'
