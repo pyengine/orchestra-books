@@ -1,5 +1,12 @@
 # Install Docker engine
 
+## Environment
+
+Keyword     | Value     | Description
+----        | ----      | ----
+MGMT01      | 192.168.1.1   | IP address for mgmt01 and consol01
+
+
 ## Run install script
 
 ~~~bash
@@ -25,7 +32,7 @@ DAEMON_MAXFILES=1048576
 # Additional startup options for the Docker daemon, for example:
 # OPTIONS="--ip-forward=true --iptables=true"
 # By default we limit the number of open files per container
-OPTIONS="--default-ulimit nofile=1024:4096 -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
+OPTIONS="--default-ulimit nofile=1024:4096 -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --cluster-advertise eth0:2375 --cluster-store consul://${MGMT01}:8500"
 ~~~
 
 Revert permission
