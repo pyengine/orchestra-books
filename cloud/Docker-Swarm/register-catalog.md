@@ -5,7 +5,7 @@
 Keyword | Value         | Description
 ----    | ----          | ----
 URL     | http://127.0.0.1/api/v1   | Orchestra API enpoint
-REPO    | https://github.com/pyengine/orchestra-books/tree/master/cloud   | Repository if Orchestra books
+REPO    | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud   | Repository if Orchestra books
 
 ## Portfolio
 
