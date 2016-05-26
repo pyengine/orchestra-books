@@ -5,7 +5,7 @@
 Keyword | Value         | Description
 ----    | ----          | ----
 URL     | http://127.0.0.1/api/v1   | Orchestra API enpoint
-REPO    | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud   | Repository if Orchestra books
+REPO    | https://raw.githubusercontent.com/pyengine/orchestra-books/master   | Repository if Orchestra books
 
 ## Portfolio
 
@@ -110,7 +110,7 @@ show(makePost(detail_url, header, body))
 # Package
 ######################################
 package_url = '${URL}/catalog/packages'
-body = {'product_id':product_id, 'pkg_type':'bpmn', 'template':'${REPO}/cloud/Docker-Swarm/docker-swarm.bpmn', 'version':'0.1'}
+body = {'product_id':product_id, 'pkg_type':'bpmn', 'template':'${REPO}/cloud/Docker-Swarm/docker-swarm.bpmn', 'version':'0.1', 'description':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/README.md'}
 display('Create Package')
 package = makePost(package_url, header, body)
 package_id = package['package_id']
