@@ -15,6 +15,16 @@ The deployment of Mesos cluster has following process.
 
 <img src="https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/workflow.png">
 
+Task Name | Task URI
+----        | ----
+Create Instances| https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/provisioning.md
+Install Prerequisites  | sudo apt-get update;sudo apt-get install -y python-pip python-dev expect gcc; sudo pip install jeju --upgrade
+Configure Master01 | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/mesos-master01.md
+Configure Master02 | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/mesos-master02.md
+Configure Master03 | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/mesos-master03.md
+Configure Slaves    | https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Mesos/mesos-slaves.md
+
+ 
 # Default Environment
 
 Keyword | Value | Description
