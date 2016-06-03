@@ -5,6 +5,7 @@
 Keyword | Value         | Description
 ----    | ----          | ----
 URL     | http://127.0.0.1/api/v1   | Orchestra API enpoint
+REPO    | https://raw.githubusercontent.com/pyengine/orchestra-books/master   | Repository if Orchestra books
 
 ## Portfolio
 
@@ -102,14 +103,14 @@ product_url2 = '${URL}/catalog/products/%s' % product_id
 ######################################
 detail_url = '${URL}/catalog/products/%s/detail' % product_id
 display('Create Product detail')
-body = {'email':'choonho.son@gmail.com', 'support_link':'https://github.com/pyengine/orchestra-books/tree/master/cloud/Docker-Swarm','support_description':'This is builded by Orchestra'}
+body = {'email':'choonho.son@gmail.com', 'support_link':'${REPO}/cloud/Docker-Swarm','support_description':'This is builded by Orchestra'}
 show(makePost(detail_url, header, body))
 
 ######################################
 # Package
 ######################################
 package_url = '${URL}/catalog/packages'
-body = {'product_id':product_id, 'pkg_type':'bpmn', 'template':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/docker-swarm.bpmn', 'version':'0.1'}
+body = {'product_id':product_id, 'pkg_type':'bpmn', 'template':'${REPO}/cloud/Docker-Swarm/docker-swarm.bpmn', 'version':'0.1', 'description':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/README.md'}
 display('Create Package')
 package = makePost(package_url, header, body)
 package_id = package['package_id']
@@ -120,7 +121,7 @@ show(package)
 ######################################
 display('Register Workflow')
 workflow_url = '${URL}/catalog/workflows'
-body = {'template':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/docker-swarm.bpmn', 'template_type':'bpmn'}
+body = {'template':'${REPO}/cloud/Docker-Swarm/docker-swarm.bpmn', 'template_type':'bpmn'}
 workflow = makePost(workflow_url, header, body)
 workflow_id = workflow['workflow_id']
 show(workflow)
@@ -130,7 +131,7 @@ show(workflow)
 ######################################
 display('Map Task #1')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Create EC2 Instances', 'task_type':'jeju', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/provisioning.md'}}
+body = {'map': {'name':'Create EC2 Instances', 'task_type':'jeju', 'task_uri':'${REPO}/cloud/Docker-Swarm/provisioning.md'}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)
@@ -145,7 +146,7 @@ show(task)
 
 display('Map Task #3')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Install Docker Engine', 'task_type':'jeju+all', 'task_uri':"https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/docker-engine.md"}}
+body = {'map': {'name':'Install Docker Engine', 'task_type':'jeju+all', 'task_uri':"${REPO}/cloud/Docker-Swarm/docker-engine.md"}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)
@@ -159,21 +160,21 @@ show(task)
 
 display('Map Task #5')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Create Swarm primary manager', 'task_type':'jeju+mgmt01', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/primary-manager.md'}}
+body = {'map': {'name':'Create Swarm primary manager', 'task_type':'jeju+mgmt01', 'task_uri':'${REPO}/cloud/Docker-Swarm/primary-manager.md'}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)
 
 display('Map Task #6')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Create Swarm seconary manager', 'task_type':'jeju+mgmt02', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/secondary-manager.md'}}
+body = {'map': {'name':'Create Swarm secondary manager', 'task_type':'jeju+mgmt02', 'task_uri':'${REPO}/cloud/Docker-Swarm/secondary-manager.md'}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)
 
 display('Map Task #7')
 task_url = '${URL}/catalog/workflows/%s/tasks' % workflow_id
-body = {'map': {'name':'Connect Swarm nodes', 'task_type':'jeju+swarm_nodes', 'task_uri':'https://raw.githubusercontent.com/pyengine/orchestra-books/master/cloud/Docker-Swarm/swarm-node.md'}}
+body = {'map': {'name':'Connect Swarm nodes', 'task_type':'jeju+swarm_nodes', 'task_uri':'${REPO}/cloud/Docker-Swarm/swarm-node.md'}}
 task = makePost(task_url, header, body)
 task_id = task['task_id']
 show(task)

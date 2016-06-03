@@ -103,12 +103,25 @@ zone_id = raw_input('zone_id=>')
 display('Swarm Cluster Size')
 num_size = raw_input('cluster size(#n)=>')
 
+print "=== AMI list ==="
+print "us-west-1: ami-6e84fa0e"
+print "us-west-2: ami-d0f506b0"
+ami_id = raw_input('AMI ID (ex. ami-d0f506b0):')
+
 stack_url = '${URL}/catalog/stacks'
 display('Deploy Stack')
-body = {'package_id':package_id, 'env': {'jeju':{'SWARM_NODES':num_size,'ZONE_ID':zone_id}}}
+body = {'package_id':package_id, 'env': {'jeju':{'SWARM_NODES':num_size,'ZONE_ID':zone_id, 'AMI_ID':ami_id}}}
 stack = makePost(stack_url, header2, body)
 stack_id = stack['stack_id']
 show(stack)
 stack_id = stack['stack_id']
 
+import time
+display('Workflow State')
+stack_url2 = '${URL}/catalog/stacks/%s/env' % stack_id
+while 1:
+    body = {'get':'workflow_state'}
+    kv = makePost(stack_url2, header2, body)
+    show(kv)
+    time.sleep(10)
 ~~~
