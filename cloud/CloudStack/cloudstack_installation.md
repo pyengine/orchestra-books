@@ -142,7 +142,7 @@ We are now going to install the management server.
 
 ~~~bash
 yum -y install cloudstack-management
-cloudstack-setup-database cloud:${PASSWORD}@localhost --deploy-as=root
+cloudstack-setup-databases cloud:${PASSWORD}@localhost --deploy-as=root
 ~~~
 
 When this process is finished, you should see a message like "CloudStack has successfully initialized the database"
