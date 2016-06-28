@@ -10,6 +10,9 @@ MODE            | 4             | bonding mode(4 == LACP)
 MIIMON          | 100           | MII link monitoring (ms)
 VLAN_MGMT       | 3             | VLAN ID for management network
 VLAN_PUBLIC     | 11            | VLAN ID for public  network
+BRIDGE_MGMT     | br-mgmt10g    | Bridge Interface for management network
+BRIDGE_PUBLIC   | br-public10g  | Bridge Interface for public network
+
 
 # Bonding Interface
 
@@ -19,6 +22,8 @@ Load bonding module
 
 ~~~bash
 modprobe bonding
+modprobe --first-time bridge
+yum install -y bridge-utils
 ~~~
 
 ## Step 1. Create Bond Interface File
@@ -71,21 +76,72 @@ fp.close()
 ~~~bash
 ifconfig ${NIC1} up
 ifconfig ${NIC2} up
-ifconfig bond0 up
 systemctl restart network.service
+ifconfig bond0 up
+~~~
+
+# Bridge Interface
+
+## Create Bridge interface for management
+
+~~~python
+fp = open('/etc/sysconfig/network-scripts/ifcfg-${BRIDGE_MGMT}', 'w')
+content = """
+TYPE=Bridge
+BOOTPROTO=none
+DEVICE=${BRIDGE_MGMT}
+ONBOOT=yes
+"""
+fp.write(content)
+fp.close()
+
+fp = open('/etc/sysconfig/network-scripts/ifcfg-${BRIDGE_PUBLIC}', 'w')
+content = """
+TYPE=Bridge
+BOOTPROTO=none
+DEVICE=${BRIDGE_PUBLIC}
+ONBOOT=yes
+"""
+fp.write(content)
+fp.close()
 ~~~
 
 # VLAN Interface
 
 ## Create VLAN interface for management
 
-~~~bash
-nmcli con add type vlan ifname VLAN${VLAN_MGMT} dev bond0 id ${VLAN_MGMT}
+~~~python
+fp = open('/etc/sysconfig/network-scripts/ifcfg-VLAN${VLAN_MGMT}', 'w')
+content = """
+VLAN=yes
+TYPE=Vlan
+PHYSDEV=bond0
+VLAN_ID=${VLAN_MGMT}
+BOOTPROTO=none
+DEVICE=VLAN${VLAN_MGMT}
+ONBOOT=yes
+BRIDGE=${BRIDGE_MGMT}
+"""
+fp.write(content)
+fp.close()
+
+fp = open('/etc/sysconfig/network-scripts/ifcfg-VLAN${VLAN_PUBLIC}', 'w')
+content = """
+VLAN=yes
+TYPE=Vlan
+PHYSDEV=bond0
+VLAN_ID=${VLAN_PUBLIC}
+BOOTPROTO=none
+DEVICE=VLAN${VLAN_PUBLIC}
+ONBOOT=yes
+BRIDGE=${BRIDGE_PUBLIC}
+"""
+fp.write(content)
+fp.close()
 ~~~
 
-## Create VLAN interface for public
+## Update Network
 
 ~~~bash
-nmcli con add type vlan ifname VLAN${VLAN_PUBLIC} dev bond0 id ${VLAN_PUBLIC}
+systemctl restart NetworkManager
 ~~~
-
