@@ -72,7 +72,7 @@ mkdir -p /tftpboot/pxelinux.cfg
 mkdir -p /tftpboot/centos7
 wget -O /tftpboot/pxelinux.0            ${REPO}/dist/pxelinux.0
 wget -O /tftpboot/centos7/vmlinuz       ${REPO}/dist/centos7/vmlinuz
-wget -O /tftpboot/centos7/initrd.img    ${REPO}/dist/initrd.img
+wget -O /tftpboot/centos7/initrd.img    ${REPO}/dist/centos7/initrd.img
 ~~~
 
 edit /tftpboot/pxelinux.cfg/default 
